@@ -141,7 +141,6 @@ class Observer {
 				 * at some point, the element is now no longer a distributed element
 				 */
 				if (mutation.type === 'attributes' && mutation.target.parentNode === this.host) {
-					console.log('IOops');
 					this.findNewNodes();
 					this.findRemovedNodes();
 				}
