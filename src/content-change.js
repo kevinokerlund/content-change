@@ -54,43 +54,38 @@ class Observer {
 
 	/**
 	 * Compares the currently distributed nodes against the original set of
-	 * distributed nodes and determines if any are new. If any new are found
-	 * they are added to the registry and an event is fired
+	 * distributed nodes and determines if any are new or are missing (removed)
+	 * If any are found they are added to, or removed from the registry and an event is fired.
+	 * Attempts to be efficient by only searching for added or removed based on an optional flag
+	 *
+	 * @param addedOrRemoved | should be "added" or "removed" or just falsy
 	 */
-	findNewNodes() {
+	discoverAddedAndRemovedNodes(searchFor) {
 		this.contentElements.forEach(content => {
 			let currentDistributedNodes = Array.from(content.getDistributedNodes());
 
 			let entry = this.currentObservedElements.find(obj => obj.content == content);
 
-			let addedNodes = currentDistributedNodes
-				.filter(node => !entry.distributedNodes.includes(node));
 
-			if (addedNodes.length) {
-				entry.distributedNodes = currentDistributedNodes;
-				Events.nodesAddedToContentEvent(content, addedNodes);
+			if (!searchFor || searchFor == 'added') {
+				let addedNodes = currentDistributedNodes
+					.filter(node => !entry.distributedNodes.includes(node));
+
+				if (addedNodes.length) {
+					entry.distributedNodes = currentDistributedNodes;
+					Events.nodesAddedToContentEvent(content, addedNodes);
+				}
 			}
-		});
-	}
 
 
-	/**
-	 * Compares the currently distributed nodes against the original set of
-	 * distributed nodes and determines if any are missing. If any new are missing
-	 * they are removed from the registry and an event is fired
-	 */
-	findRemovedNodes() {
-		this.contentElements.forEach(content => {
-			let currentDistributedNodes = Array.from(content.getDistributedNodes());
+			if (!searchFor || searchFor == 'removed') {
+				let removedNodes = entry.distributedNodes
+					.filter(node => !currentDistributedNodes.includes(node));
 
-			let entry = this.currentObservedElements.find(obj => obj.content == content);
-
-			let removedNodes = entry.distributedNodes
-				.filter(node => !currentDistributedNodes.includes(node));
-
-			if (removedNodes.length) {
-				entry.distributedNodes = currentDistributedNodes;
-				Events.nodesRemovedFromContentEvent(content, removedNodes);
+				if (removedNodes.length) {
+					entry.distributedNodes = currentDistributedNodes;
+					Events.nodesRemovedFromContentEvent(content, removedNodes);
+				}
 			}
 		});
 	}
@@ -111,10 +106,10 @@ class Observer {
 				 */
 				if (mutation.type === 'childList') {
 					if (mutation.addedNodes.length) {
-						this.findNewNodes();
+						this.discoverAddedAndRemovedNodes('added');
 					}
 					if (mutation.removedNodes.length) {
-						this.findRemovedNodes();
+						this.discoverAddedAndRemovedNodes('removed');
 					}
 				}
 
@@ -141,8 +136,7 @@ class Observer {
 				 * at some point, the element is now no longer a distributed element
 				 */
 				if (mutation.type === 'attributes' && mutation.target.parentNode === this.host) {
-					this.findNewNodes();
-					this.findRemovedNodes();
+					this.discoverAddedAndRemovedNodes();
 				}
 			});
 		});
