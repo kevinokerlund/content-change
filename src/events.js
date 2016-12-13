@@ -33,7 +33,7 @@ export function contentChangeEvent(contentElement, mutationRecord) {
 export function nodesAddedToContentEvent(contentElement, nodes) {
 	dispatchContentChangeEvent(contentElement, {
 		type: 'nodesAdded',
-		addedNodes: nodes
+		nodesAdded: nodes
 	});
 }
 
@@ -47,7 +47,7 @@ export function nodesAddedToContentEvent(contentElement, nodes) {
 export function nodesRemovedFromContentEvent(contentElement, nodes) {
 	dispatchContentChangeEvent(contentElement, {
 		type: 'nodesRemoved',
-		addedNodes: nodes
+		nodesRemoved: nodes
 	});
 }
 

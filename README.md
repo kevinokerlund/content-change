@@ -30,17 +30,17 @@ headerContent.addEventListener('contentchange', e => {
 #### Reacting to added nodes:
 When new nodes are added to the host element that are then distributed to the content element with the listener, you will recieve the following as the event:
 ```
-Object {type: "nodesAdded", addedNodes: Array[2]}
+Object {type: "nodesAdded", nodesAdded: Array[2]}
 ```
 
 #### Reacting to removed nodes:
 When nodes are no longer distributed you will recieve the following:
 ```
-Object {type: "nodesRemoved", addedNodes: Array[2]}
+Object {type: "nodesRemoved", nodesRemoved: Array[2]}
 ```
 
 #### Reacting to changes in distributed nodes (attributes, text nodes, etc):
-When a distributed node changes, or a node inside of a distributed node changes, you will recieve a MutationRecord from the MutationObserver. 
+When a distributed node changes, or a node inside of a distributed node changes, you will receive a MutationRecord from the MutationObserver. 
 
 ---
 
