@@ -95,3 +95,96 @@ When a currently distributed node has a change occur on it, that does not cause 
 }
 ```
 This can be attribute changes, added or removed nodes on the distributed node, characterData changes, etc.
+
+## Browser support
+| Chrome | Firefox | Safari | IE | Edge | Chrome Android | Mobile Safari |
+|:------:|:-------:|:------:|:--:|:----:|:--------------:|:-------------:|
+|    ✓   |    ✓    |   7+   | 11 |   ✓  |        ✓       |       ✓       |
+This table attempts to reflect the same support of webcomponents.js. However, there is no support for IE10 for content-change.js while there is partial IE10 support for web componenets using the webcomponentsjs polyfill.
+
+# A full example
+I will soon make a small github page so that a live example may be viewed. For now, the contents of the files will be placed here:
+
+#### example-component.html
+A simple web component
+```html
+<template id="example-component">
+	<div>I am an example component</div>
+	<!-- Distribute paragraphs -->
+	<content select="p"></content>
+</template>
+
+<script>
+	(function () {
+
+		var doc = (document._currentScript || document.currentScript).ownerDocument;
+		var objectPrototype = Object.create(HTMLElement.prototype);
+
+		objectPrototype.createdCallback = function () {
+			var shadow = this.createShadowRoot();
+			var template = doc.querySelector('#example-component');
+			shadow.appendChild(template.content.cloneNode(true));
+
+			// Watch this components distributed nodes ("this" is currently the host element)
+			window.ContentChange.watch(this);
+
+			var pContent = shadow.querySelector('content[select="p"]');
+			pContent.addEventListener('contentchange', function (e) {
+				// "this" is the content element
+				console.log(this, e.detail);
+			});
+		};
+
+		document.registerElement('example-component', {
+			prototype: objectPrototype
+		});
+
+	})();
+</script>
+
+```
+#### index.html
+The web page that the web component will be rendered on
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Watch Changes in distributed nodes in Shadow DOM v0</title>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/0.7.23/webcomponents.min.js"></script>
+	<script src="lib/content-change.js"></script>
+	<link rel="import" href="example-component.html">
+</head>
+<body>
+
+<example-component>
+	<p>This will be a distributed node</p>
+</example-component>
+
+<script>
+	// Manipulate the example-component so we see changes
+	var example = document.querySelector('example-component');
+	var p = document.createElement('p');
+	p.textContent = 'Dynamically created';
+
+	// Add to the component at some point
+	window.setTimeout(function () {
+		example.appendChild(p);
+	}, 500);
+
+	// Modify a distributed node some point later
+	window.setTimeout(function () {
+		p.classList.add('foo');
+	}, 750);
+
+	// Remove a distributed node
+	window.setTimeout(function () {
+		example.removeChild(p);
+	}, 1000);
+</script>
+
+</body>
+</html>
+
+```
