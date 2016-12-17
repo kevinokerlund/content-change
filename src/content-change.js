@@ -1,3 +1,8 @@
+import './polyfills/CustomEvent';
+import './polyfills/Array-Find';
+import './polyfills/Array-From';
+import './polyfills/Array-Includes';
+
 import * as Events from './events';
 
 
