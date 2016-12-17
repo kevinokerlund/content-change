@@ -20,7 +20,10 @@ function dispatchContentChangeEvent(contentElement, detail) {
  * @param mutationRecord
  */
 export function contentChangeEvent(contentElement, mutationRecord) {
-	dispatchContentChangeEvent(contentElement, mutationRecord);
+	dispatchContentChangeEvent(contentElement, {
+		type: 'mutation',
+		mutation: mutationRecord
+	});
 }
 
 
