@@ -96,7 +96,7 @@ When a currently distributed node has a change occur on it, that does not cause 
 ```
 This can be attribute changes, added or removed nodes on the distributed node, characterData changes, etc.
 
-## Browser support
+# Browser support
 | Chrome | Firefox | Safari | IE | Edge | Chrome Android | Mobile Safari |
 |:------:|:-------:|:------:|:--:|:----:|:--------------:|:-------------:|
 |    ✓   |    ✓    |   7+   | 11 |   ✓  |        ✓       |       ✓       |
