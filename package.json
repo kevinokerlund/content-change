@@ -1,6 +1,6 @@
 {
   "name": "content-change",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Observe and react to changes in distributed nodes in web components, Shadow DOM v0.",
   "main": "lib/content-change.min.js",
   "scripts": {
