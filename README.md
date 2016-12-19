@@ -4,18 +4,18 @@ Observe and react to changes in distributed nodes in web components, Shadow DOM 
 
 It behaves, and is used similarly to [Shadow DOM v1's "slotchange" event](https://hayato.io/2016/shadowdomv1/#events-to-react-the-change-of-distributions).
 
-##### A simple example:
+> Just 2.1k gzipped
+
+## Why
+Shadow DOM v0, unlike Shadow DOM v1, has no specification for watching changes to distributed nodes. Because the support for v1 is not as high as v0 at this point, this library exists to provide the ability to watch distribution changes to content elements in v0, while still working with the webcomponents.js polyfill library.
+
+#### A simple example:
 ```javascript
 const contentElement = shadow.getElementById('#content');
 contentElement.addEventListener('contentchange', event => {
 	// React to distributed node changes! Keep reading for details on the event data
 });
 ```
-
-> Just 2.1k gzipped
-
-## Why
-Shadow DOM v0, unlike Shadow DOM v1, has no specification for watching changes to distributed nodes. Because the support for v1 is not as high as v0 at this point, this library exists to provide the ability to watch distribution changes to content elements in v0, while still working with the webcomponents.js polyfill library.
 
 ## Install
 You can install it from npm
