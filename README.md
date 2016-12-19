@@ -15,7 +15,7 @@ You can install it from npm
 npm install --save content-change
 ```
 
-If you're not using package management, you can download a ZIP file and use `lib/content-change.min.js`.
+If you're not using package management, you can [download a ZIP](https://github.com/kevinokerlund/content-change/archive/master.zip) file and use `lib/content-change.min.js`.
 
 ## Setup
 The script must be located before web components are imported. If you are using the `webcomponents.js` polyfill, it doesn't matter if is located before or after the inclusion of `webcomponent.js`.
