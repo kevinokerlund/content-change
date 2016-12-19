@@ -6,7 +6,7 @@ module.exports = {
 	devtool: 'source-map',
 	output: {
 		path: './lib',
-		filename: 'content-change.js',
+		filename: 'content-change.min.js',
 		library: 'ContentChange',
 		libraryTarget: 'umd',
 		umdNamedDefine: true
