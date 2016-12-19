@@ -1,12 +1,12 @@
 {
   "name": "content-change",
   "version": "0.0.1-dev",
-  "description": "",
+  "description": "Observe and react to changes in distributed nodes in web components, Shadow DOM v0.",
   "main": "lib/content-change.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Kevin Okerlund",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.20.0",
@@ -14,5 +14,23 @@
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.18.0",
     "webpack": "^1.14.0"
-  }
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinokerlund/content-change.git"
+  },
+  "keywords": [
+    "Shadow DOM v0",
+    "distributed nodes",
+    "web components",
+    "content element",
+    "MutationObserver",
+    "slot",
+    "slotchange"
+  ],
+  "bugs": {
+    "url": "https://github.com/kevinokerlund/content-change/issues"
+  },
+  "homepage": "https://github.com/kevinokerlund/content-change#readme"
 }
