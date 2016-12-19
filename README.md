@@ -4,6 +4,14 @@ Observe and react to changes in distributed nodes in web components, Shadow DOM 
 
 It behaves, and is used similarly to [Shadow DOM v1's "slotchange" event](https://hayato.io/2016/shadowdomv1/#events-to-react-the-change-of-distributions).
 
+##### A simple example:
+```javascript
+const contentElement = shadow.getElementById('#content');
+contentElement.addEventListener('contentchange', event => {
+	// React to distributed node changes! Keep reading for details on the event data
+});
+```
+
 > Just 2.1k gzipped
 
 ## Why
@@ -35,7 +43,7 @@ import {watch} from 'content-change';
 If the library is directly sourced to the window, it operates on the `ContentChange` global namespace (`window.ContentChange`).
 
 #Usage
-Only 1 mutation observer is created per host. No additional MutationObservers are not spawned on distributed nodes. Because this library provides functionality that is non-spec, it does not modify the api's and objects of any Shadow DOM behavior.
+Only 1 mutation observer is created per host. No additional MutationObservers are spawned on distributed nodes. Because this library provides functionality that is non-spec, it does not modify the api's and objects of any Shadow DOM behavior.
 
 ### Specifying which components to watch
 A simple call inside of either the `createdCallback`, or the `attachedCallback` is made:
@@ -54,15 +62,15 @@ The final piece is to specify which `content` elements should have an event hand
 ```javascript
 // get the content element you want to watch for distributed changes in from the shadow dom
 const content = shadow.querySelector('selectorForYourContentElement');
-// Add the listener
+
 content.addEventListener('contentchange', e => {
-	console.log(e);
+	console.log(e.detail);
 });
 ```
 
 ## Reacting to the different event details
 Because the event is created with CustomEvent, the information you will look for in the event will be under the detail key:
-`e.detail`. There are three different event `type`'s, you can recieve:
+`e.detail`. There are three different event `type`'s, you can receive:
 
 * nodesAdded
 * nodesRemoved
@@ -87,7 +95,7 @@ The event detail will contain an object that looks like the following:
 ```
 
 ### Reacting to mutations in distributed nodes
-When a currently distributed node has a change occur on it, that does not cause it to no longer be distributed, you will recieve a `MutationRecord` in an object that looks like the following:
+When a currently distributed node has a mutation occur on it, you will receive the following:
 ```javascript
 {
     "type": "mutation",
@@ -96,11 +104,12 @@ When a currently distributed node has a change occur on it, that does not cause 
 ```
 This can be attribute changes, added or removed nodes on the distributed node, characterData changes, etc.
 
+**Note:** If the mutation causes the node to no longer be distributed, you will receive a `nodesRemoved` event instead.
+
 # Browser support
 | Chrome | Firefox | Safari | IE | Edge | Chrome Android | Mobile Safari |
 |:------:|:-------:|:------:|:--:|:----:|:--------------:|:-------------:|
 |    ✓   |    ✓    |   7+   | 11 |   ✓  |        ✓       |       ✓       |
-This table attempts to reflect the same support of webcomponents.js. However, there is no support for IE10 for content-change.js while there is partial IE10 support for web componenets using the webcomponentsjs polyfill.
 
 # A full example
 I will soon make a small github page so that a live example may be viewed. For now, the contents of the files will be placed here:
