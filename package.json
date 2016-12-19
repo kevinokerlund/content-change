@@ -2,7 +2,7 @@
   "name": "content-change",
   "version": "1.0.0",
   "description": "Observe and react to changes in distributed nodes in web components, Shadow DOM v0.",
-  "main": "lib/content-change.js",
+  "main": "lib/content-change.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
