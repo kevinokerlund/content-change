@@ -30,6 +30,7 @@ class Observer {
 	 * @returns {Array.<*>}
 	 */
 	get allCurrentDistributedNodes() {
+		//@TODO... seems overly complicated
 		return [].concat(...this.currentObservedElements.map(a => a.distributedNodes));
 	}
 
@@ -65,7 +66,7 @@ class Observer {
 	 * If any are found they are added to, or removed from the registry and an event is fired.
 	 * Attempts to be efficient by only searching for added or removed based on an optional flag
 	 *
-	 * @param addedOrRemoved | should be "added" or "removed" or just falsy
+	 * @param searchFor | should be "added" or "removed" or just falsy
 	 */
 	discoverAddedAndRemovedNodes(searchFor) {
 		this.contentElements.forEach(content => {
