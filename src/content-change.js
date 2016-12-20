@@ -5,6 +5,7 @@ import './polyfills/Array-Includes';
 
 import * as Events from './events';
 
+let Instances = new WeakMap();
 
 class Observer {
 
@@ -15,6 +16,7 @@ class Observer {
 		this.host = host;
 		this.shadowRoot = this.host.shadowRoot;
 		this.currentObservedElements = [];
+		this.mutationObserver = null;
 
 		this.setDistributedNodes();
 		this.observeHost();
@@ -101,7 +103,9 @@ class Observer {
 	 * deletions and attribute changes to all types of nodes, including Text Nodes
 	 */
 	observeHost() {
-		let observer = new MutationObserver(mutations => {
+		this.mutationObserver = new MutationObserver(mutations => {
+
+			//@TODO: look at not iterating over the mutations array, and instead just trigger the searches after a mutation
 
 			mutations.forEach(mutation => {
 
@@ -146,15 +150,25 @@ class Observer {
 			});
 		});
 
-		observer.observe(this.host, {
+		this.mutationObserver.observe(this.host, {
 			childList: true,
 			attributes: true,
 			characterData: true,
 			subtree: true
 		});
 	}
+
+	unwatch() {
+		this.mutationObserver.disconnect();
+	}
 }
 
 export default {
-	watch: (...args) => new Observer(...args)
+	watch: (host) => {
+		Instances.set(host, new Observer(host));
+	},
+	unwatch: (host) => {
+		Instances.get(host).unwatch();
+		Instances.delete(host);
+	}
 }
