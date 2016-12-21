@@ -32,7 +32,7 @@ The script must be located before web components are imported. If you are using 
 <!-- now import your web components -->
 ```
 
-This library is UMD wrapped and if you are using a module bundler, you have a couple of different options. You can just import the package to the appropriate location, or you can import the one and only function available, `watch`.
+This library is UMD wrapped and if you are using a module bundler, you have a couple of different options. You can just import the package to the appropriate location, or you can import the only functions available, `watch`, and `unwatch`.
 ```javascript
 import ContentChange from 'content-change';
 
@@ -67,6 +67,15 @@ content.addEventListener('contentchange', e => {
 	console.log(e.detail);
 });
 ```
+
+### Completely stop watching a component
+You can stop watching a particular web component completely, but this is different from removing the listeners on the content elements. No longer "watching" the component removes the MutationObserver, giving you back some performance.
+
+```javascript
+ContentChange.unwatch(hostElement);
+```
+
+`unwatch` accepts the host element as an argument.
 
 ## Reacting to the different event details
 Because the event is created with CustomEvent, the information you will look for in the event will be under the detail key:
