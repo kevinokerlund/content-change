@@ -30,8 +30,7 @@ class Observer {
 	 * @returns {Array.<*>}
 	 */
 	get allCurrentDistributedNodes() {
-		//@TODO... seems overly complicated
-		return [].concat(...this.currentObservedElements.map(a => a.distributedNodes));
+		return [...this.currentObservedElements.map(a => a.distributedNodes)];
 	}
 
 
